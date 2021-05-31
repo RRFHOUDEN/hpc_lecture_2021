@@ -40,7 +40,6 @@ int main(int argc, char** argv) {
   for(int irank=0; irank<size; irank++) {
     auto tic = chrono::steady_clock::now();
     offset = N/size*((rank+irank) % size);
-    #pragma omp paralle for privete(k, j)
     for (int i=0; i<N/size; i++)
       for (int k=0; k<N; k++)
         for (int j=0; j<N/size; j++)
