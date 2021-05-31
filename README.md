@@ -1,3 +1,7 @@
+20M13995 Keisuke Toyoda
+final report の run.shを実行してください
+example.cpp が最終的な課題です
+いろいろ試しましたが for の順番を入れ替え openmp を使う以上に早くなりませんでした
 # hpc_lecture
 
 |          | Topic                                | Sample code               |

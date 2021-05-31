@@ -19,6 +19,7 @@ int main(int argc, char** argv) {
   vector<float> subA(N*N/size);
   vector<float> subB(N*N/size);
   vector<float> subC(N*N/size, 0);
+  vector<float> result(N*N/size, 0);
   vector<float> recv(N*N/size);
   for (int i=0; i<N; i++) {
     for (int j=0; j<N; j++) {
@@ -40,11 +41,14 @@ int main(int argc, char** argv) {
   for(int irank=0; irank<size; irank++) {
     auto tic = chrono::steady_clock::now();
     offset = N/size*((rank+irank) % size);
-    #pragma omp paralle for privete(k, j)
-    for (int i=0; i<N/size; i++)
-      for (int k=0; k<N; k++)
-        for (int j=0; j<N/size; j++)
+    #pragma omp paralle for private(k, j)
+    for (int i=0; i<N/size; i++){
+      for (int k=0; k<N; k++){
+        for (int j=0; j<N/size; j++){
           subC[N*i+j+offset] += subA[N*i+k] * subB[N/size*k+j];
+        }
+      }
+    }
     auto toc = chrono::steady_clock::now();
     comp_time += chrono::duration<double>(toc - tic).count();
     MPI_Request request[2];
